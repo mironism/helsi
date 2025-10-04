@@ -83,19 +83,43 @@ const Settings = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-muted pb-20">
-      {/* Header */}
-      <header className="bg-gradient-secondary p-6 rounded-b-3xl shadow-card">
-        <div className="max-w-2xl mx-auto">
-          <h1 className="text-2xl font-bold text-white mb-2">Settings</h1>
-          <p className="text-white/80 text-sm">Manage your account and preferences</p>
+    <div className="min-h-screen bg-gradient-to-b from-sky-200 via-sky-100 to-green-100 relative overflow-hidden pb-20">
+      {/* Decorative Nature Elements - Full Background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Clouds floating around - moved lower */}
+        <div className="absolute top-24 right-20 opacity-50 animate-pulse">
+          <div className="text-5xl">☁️</div>
+        </div>
+        <div className="absolute top-32 left-16 opacity-40">
+          <div className="text-4xl">☁️</div>
+        </div>
+        <div className="absolute top-48 right-32 opacity-30">
+          <div className="text-3xl">☁️</div>
+        </div>
+
+        {/* Sun - moved lower */}
+        <div className="absolute top-20 left-8">
+          <div className="text-5xl">☀️</div>
+        </div>
+
+        {/* Birds - moved lower */}
+        <div className="absolute top-44 right-1/4 opacity-60">
+          <div className="text-2xl">🐦</div>
+        </div>
+      </div>
+
+      {/* Header - Glassmorphism style like home page */}
+      <header className="relative z-10 py-6">
+        <div className="max-w-2xl mx-auto bg-white/20 backdrop-blur-sm rounded-full px-6 py-4 mx-4 shadow-lg">
+          <h1 className="text-2xl font-bold text-slate-800 text-center mb-2">Settings</h1>
+          <p className="text-slate-600 text-sm text-center">Manage your account and preferences</p>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="max-w-2xl mx-auto px-4 py-6 space-y-6">
+      <main className="max-w-2xl mx-auto px-4 py-6 space-y-6 relative z-10">
         {/* Profile Card */}
-        <div className="bg-card rounded-3xl shadow-card p-6">
+        <div className="bg-white/20 backdrop-blur-sm rounded-3xl shadow-lg p-6">
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center text-2xl font-bold text-white">
               {user.name.charAt(0).toUpperCase()}
@@ -130,15 +154,15 @@ const Settings = () => {
               ) : (
                 <div>
                   <div className="flex items-center gap-2">
-                    <h2 className="text-xl font-bold">{user.name}</h2>
+                    <h2 className="text-xl font-bold text-slate-800">{user.name}</h2>
                     <button
                       onClick={() => setIsEditingName(true)}
-                      className="p-1 hover:bg-muted rounded-lg transition-colors"
+                      className="p-1 hover:bg-white/20 rounded-lg transition-colors"
                     >
-                      <Edit2 className="w-4 h-4 text-muted-foreground" />
+                      <Edit2 className="w-4 h-4 text-slate-600" />
                     </button>
                   </div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-slate-600">
                     {user.avatarType} • {user.xp} XP • {user.streak} day streak
                   </p>
                 </div>
@@ -146,21 +170,21 @@ const Settings = () => {
             </div>
           </div>
 
-          <div className="mt-4 pt-4 border-t border-border">
+          <div className="mt-4 pt-4 border-t border-white/30">
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
-                <div className="text-2xl font-bold text-primary">{user.xp}</div>
-                <div className="text-xs text-muted-foreground">Total XP</div>
+                <div className="text-2xl font-bold text-amber-600">{user.xp}</div>
+                <div className="text-xs text-slate-600">Total XP</div>
               </div>
               <div>
-                <div className="text-2xl font-bold text-accent">{user.streak}</div>
-                <div className="text-xs text-muted-foreground">Day Streak</div>
+                <div className="text-2xl font-bold text-blue-600">{user.streak}</div>
+                <div className="text-xs text-slate-600">Day Streak</div>
               </div>
               <div>
-                <div className="text-2xl font-bold text-secondary">
+                <div className="text-2xl font-bold text-green-600">
                   {Math.floor((Date.now() - new Date(user.createdAt).getTime()) / (1000 * 60 * 60 * 24))}
                 </div>
-                <div className="text-xs text-muted-foreground">Days Active</div>
+                <div className="text-xs text-slate-600">Days Active</div>
               </div>
             </div>
           </div>
@@ -173,9 +197,9 @@ const Settings = () => {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: sectionIndex * 0.1 }}
-            className="bg-card rounded-3xl shadow-card p-6"
+            className="bg-white/20 backdrop-blur-sm rounded-3xl shadow-lg p-6"
           >
-            <h3 className="text-sm font-semibold text-muted-foreground mb-3">
+            <h3 className="text-sm font-semibold text-slate-700 mb-3">
               {section.title}
             </h3>
             <div className="space-y-2">
@@ -186,11 +210,11 @@ const Settings = () => {
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ delay: sectionIndex * 0.1 + itemIndex * 0.05 }}
                   onClick={item.action}
-                  className="w-full flex items-center gap-4 p-4 bg-muted hover:bg-muted/80 rounded-2xl transition-colors"
+                  className="w-full flex items-center gap-4 p-4 bg-white/10 hover:bg-white/20 rounded-2xl transition-colors"
                 >
                   <item.icon className={`w-5 h-5 ${item.color}`} />
-                  <span className="flex-1 text-left font-semibold">{item.label}</span>
-                  <span className="text-muted-foreground">›</span>
+                  <span className="flex-1 text-left font-semibold text-slate-800">{item.label}</span>
+                  <span className="text-slate-600">›</span>
                 </motion.button>
               ))}
             </div>
@@ -198,7 +222,7 @@ const Settings = () => {
         ))}
 
         {/* App Info */}
-        <div className="text-center text-sm text-muted-foreground">
+        <div className="text-center text-sm text-slate-600">
           <p>Helsi v1.0.0</p>
           <p className="mt-1">Made with ❤️ for your health</p>
         </div>

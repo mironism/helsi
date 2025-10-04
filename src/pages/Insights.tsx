@@ -111,24 +111,48 @@ const Insights = () => {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-muted pb-20">
-      {/* Header */}
-      <header className="bg-gradient-secondary p-6 rounded-b-3xl shadow-card">
-        <div className="max-w-2xl mx-auto">
-          <h1 className="text-2xl font-bold text-white mb-2">Insights</h1>
-          <p className="text-white/80 text-sm">
+    <div className="min-h-screen bg-gradient-to-b from-sky-200 via-sky-100 to-green-100 relative overflow-hidden pb-20">
+      {/* Decorative Nature Elements - Full Background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Clouds floating around - moved lower */}
+        <div className="absolute top-24 right-20 opacity-50 animate-pulse">
+          <div className="text-5xl">☁️</div>
+        </div>
+        <div className="absolute top-32 left-16 opacity-40">
+          <div className="text-4xl">☁️</div>
+        </div>
+        <div className="absolute top-48 right-32 opacity-30">
+          <div className="text-3xl">☁️</div>
+        </div>
+
+        {/* Sun - moved lower */}
+        <div className="absolute top-20 left-8">
+          <div className="text-5xl">☀️</div>
+        </div>
+
+        {/* Birds - moved lower */}
+        <div className="absolute top-44 right-1/4 opacity-60">
+          <div className="text-2xl">🐦</div>
+        </div>
+      </div>
+
+      {/* Header - Glassmorphism style like home page */}
+      <header className="relative z-10 py-6">
+        <div className="max-w-2xl mx-auto bg-white/20 backdrop-blur-sm rounded-full px-6 py-4 mx-4 shadow-lg">
+          <h1 className="text-2xl font-bold text-slate-800 text-center mb-2">Insights</h1>
+          <p className="text-slate-600 text-sm text-center">
             Based on {logs.length} data points • {confidence.level} confidence
           </p>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="max-w-2xl mx-auto px-4 py-6 space-y-6">
+      <main className="max-w-2xl mx-auto px-4 py-6 space-y-6 relative z-10">
         {logs.length < 2 ? (
-          <div className="bg-card rounded-3xl shadow-card p-8 text-center">
-            <Target className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-            <h2 className="text-xl font-bold mb-2">Start Logging to See Insights</h2>
-            <p className="text-muted-foreground">
+          <div className="bg-white/20 backdrop-blur-sm rounded-3xl shadow-lg p-8 text-center">
+            <Target className="w-16 h-16 text-slate-600 mx-auto mb-4" />
+            <h2 className="text-xl font-bold text-slate-800 mb-2">Start Logging to See Insights</h2>
+            <p className="text-slate-600">
               Log your health data for a few days to unlock personalized insights and trends.
             </p>
           </div>
@@ -138,18 +162,18 @@ const Insights = () => {
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="bg-card rounded-3xl shadow-card p-6"
+              className="bg-white/20 backdrop-blur-sm rounded-3xl shadow-lg p-6"
             >
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold">Recovery Score</h2>
-                <Zap className="w-5 h-5 text-accent" />
+                <h2 className="text-lg font-bold text-slate-800">Recovery Score</h2>
+                <Zap className="w-5 h-5 text-amber-500" />
               </div>
 
               <div className="flex items-end gap-4 mb-4">
-                <div className="text-5xl font-bold">{insights.recovery}%</div>
+                <div className="text-5xl font-bold text-slate-800">{insights.recovery}%</div>
                 <div className={`flex items-center gap-1 mb-2 ${
-                  insights.recovery >= 70 ? 'text-energized' :
-                  insights.recovery >= 40 ? 'text-accent' : 'text-low'
+                  insights.recovery >= 70 ? 'text-green-400' :
+                  insights.recovery >= 40 ? 'text-amber-400' : 'text-red-400'
                 }`}>
                   {insights.recovery >= 70 ? <TrendingUp className="w-5 h-5" /> : <TrendingDown className="w-5 h-5" />}
                   <span className="text-sm font-semibold">
@@ -159,19 +183,19 @@ const Insights = () => {
               </div>
 
               {/* Recovery Bar */}
-              <div className="h-3 bg-muted rounded-full overflow-hidden">
+              <div className="h-3 bg-white/20 rounded-full overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${insights.recovery}%` }}
                   transition={{ duration: 1, ease: 'easeOut' }}
                   className={`h-full ${
-                    insights.recovery >= 70 ? 'bg-energized' :
-                    insights.recovery >= 40 ? 'bg-accent' : 'bg-low'
+                    insights.recovery >= 70 ? 'bg-green-400' :
+                    insights.recovery >= 40 ? 'bg-amber-400' : 'bg-red-400'
                   }`}
                 />
               </div>
 
-              <p className="text-sm text-muted-foreground mt-3">
+              <p className="text-sm text-slate-600 mt-3">
                 Based on sleep quality, stress levels, and mood over the last 7 days
               </p>
             </motion.div>
@@ -182,36 +206,36 @@ const Insights = () => {
                 initial={{ x: -20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.1 }}
-                className="bg-card rounded-2xl shadow-card p-5"
+                className="bg-white/20 backdrop-blur-sm rounded-2xl shadow-lg p-5"
               >
                 <div className="flex items-center gap-2 mb-2">
-                  <Activity className="w-4 h-4 text-low" />
-                  <h3 className="text-sm font-semibold text-muted-foreground">Strain</h3>
+                  <Activity className="w-4 h-4 text-red-500" />
+                  <h3 className="text-sm font-semibold text-slate-700">Strain</h3>
                 </div>
-                <div className="text-3xl font-bold">{insights.strain}</div>
-                <p className="text-xs text-muted-foreground mt-1">Scale 0-21</p>
+                <div className="text-3xl font-bold text-slate-800">{insights.strain}</div>
+                <p className="text-xs text-slate-500 mt-1">Scale 0-21</p>
               </motion.div>
 
               <motion.div
                 initial={{ x: 20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.1 }}
-                className="bg-card rounded-2xl shadow-card p-5"
+                className="bg-white/20 backdrop-blur-sm rounded-2xl shadow-lg p-5"
               >
                 <div className="flex items-center gap-2 mb-2">
-                  <Moon className="w-4 h-4 text-secondary" />
-                  <h3 className="text-sm font-semibold text-muted-foreground">Sleep</h3>
+                  <Moon className="w-4 h-4 text-blue-500" />
+                  <h3 className="text-sm font-semibold text-slate-700">Sleep</h3>
                 </div>
-                <div className="text-3xl font-bold">{insights.sleepScore}%</div>
-                <p className="text-xs text-muted-foreground mt-1">Quality score</p>
+                <div className="text-3xl font-bold text-slate-800">{insights.sleepScore}%</div>
+                <p className="text-xs text-slate-500 mt-1">Quality score</p>
               </motion.div>
             </div>
 
             {/* Trends */}
             {insights.trends.length > 0 && (
-              <div className="bg-card rounded-3xl shadow-card p-6">
-                <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-                  <Calendar className="w-5 h-5 text-primary" />
+              <div className="bg-white/20 backdrop-blur-sm rounded-3xl shadow-lg p-6">
+                <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-amber-500" />
                   7-Day Trends
                 </h2>
                 <div className="space-y-3">
@@ -221,17 +245,17 @@ const Insights = () => {
                       initial={{ x: -10, opacity: 0 }}
                       animate={{ x: 0, opacity: 1 }}
                       transition={{ delay: 0.2 + index * 0.1 }}
-                      className="flex items-center gap-4 p-3 bg-muted rounded-2xl"
+                      className="flex items-center gap-4 p-3 bg-white/10 rounded-2xl"
                     >
                       <trend.icon className={`w-5 h-5 ${trend.color}`} />
                       <div className="flex-1">
-                        <div className="font-semibold text-sm">{trend.title}</div>
-                        <div className="text-xs text-muted-foreground">{trend.value}</div>
+                        <div className="font-semibold text-sm text-slate-800">{trend.title}</div>
+                        <div className="text-xs text-slate-600">{trend.value}</div>
                       </div>
                       {trend.trend === 'up' ? (
-                        <TrendingUp className="w-4 h-4 text-energized" />
+                        <TrendingUp className="w-4 h-4 text-green-400" />
                       ) : (
-                        <TrendingDown className="w-4 h-4 text-low" />
+                        <TrendingDown className="w-4 h-4 text-red-400" />
                       )}
                     </motion.div>
                   ))}
@@ -241,12 +265,12 @@ const Insights = () => {
 
             {/* Recommendations */}
             {insights.recommendations.length > 0 && (
-              <div className="bg-card rounded-3xl shadow-card p-6">
-                <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-                  <Target className="w-5 h-5 text-accent" />
+              <div className="bg-white/20 backdrop-blur-sm rounded-3xl shadow-lg p-6">
+                <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                  <Target className="w-5 h-5 text-amber-500" />
                   Recommendations
                 </h2>
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {insights.recommendations.map((rec, index) => (
                     <motion.div
                       key={index}
@@ -254,13 +278,13 @@ const Insights = () => {
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.3 + index * 0.1 }}
                       className={`p-4 rounded-2xl border-l-4 ${
-                        rec.priority === 'high' ? 'bg-low/10 border-low' :
-                        rec.priority === 'medium' ? 'bg-accent/10 border-accent' :
-                        'bg-energized/10 border-energized'
+                        rec.priority === 'high' ? 'border-red-400' :
+                        rec.priority === 'medium' ? 'border-amber-400' :
+                        'border-green-400'
                       }`}
                     >
-                      <h3 className="font-bold mb-1">{rec.title}</h3>
-                      <p className="text-sm text-muted-foreground">{rec.description}</p>
+                      <h3 className="font-bold mb-1 text-slate-800">{rec.title}</h3>
+                      <p className="text-sm text-slate-600">{rec.description}</p>
                     </motion.div>
                   ))}
                 </div>

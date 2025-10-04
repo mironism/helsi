@@ -139,15 +139,36 @@ export const generateInsight = (): string => {
     return "Keep logging to unlock personalized insights about your health patterns!";
   }
   
+  // Analyze recent patterns
+  const recentLogs = logs.slice(-3); // Last 3 logs
+  const goodSleepCount = recentLogs.filter(l => l.sleep === 'Good').length;
+  const happyMoodCount = recentLogs.filter(l => l.mood === 'Happy').length;
+  const supplementCount = recentLogs.filter(l => l.supplements === 'Taken').length;
+  
+  // Generate contextual insights based on patterns
+  if (goodSleepCount === recentLogs.length && supplementCount === recentLogs.length) {
+    return "Your energy peaks when sleep is good + supplements are consistent.";
+  }
+  
+  if (happyMoodCount === recentLogs.length) {
+    return "You're on a positive streak! Your mood has been consistently good.";
+  }
+  
+  if (recentLogs.some(l => l.stress === 'High')) {
+    return "High stress detected in recent logs. Consider our stress management tips.";
+  }
+  
+  if (recentLogs.some(l => l.sleep === 'Poor')) {
+    return "Poor sleep patterns detected. Focus on sleep hygiene for better energy.";
+  }
+  
+  // Default insights
   const insights = [
-    `Your fatigue tends to spike 36h after poor sleep + sugar intake. (n=${logs.length})`,
-    `You logged high stress ${logs.filter(l => l.stress === 'High').length} times this week. Try our calm protocol.`,
-    `Your energy peaks when sleep is good + supplements are consistent. (n=${logs.length})`,
-    `Pattern detected: Low mood correlates with sugar + poor sleep combo. (n=${logs.length})`,
-    `Great job! Your streak shows consistency pays off. Keep it up! (n=${logs.length})`,
+    "Your health patterns are taking shape. Keep logging to see clearer insights!",
+    "Every log helps build your personalized health profile.",
+    "Consistency is key - you're building valuable health data.",
   ];
   
-  // Rotate based on log count
   return insights[logs.length % insights.length];
 };
 
@@ -156,8 +177,8 @@ export const getConfidenceLevel = (): { level: 'Low' | 'Medium' | 'High'; messag
   const count = logs.length;
   
   if (count < 3) return { level: 'Low', message: `Need ${3 - count} more logs` };
-  if (count < 8) return { level: 'Medium', message: `${count} data points` };
-  return { level: 'High', message: `${count}+ data points` };
+  if (count < 8) return { level: 'Medium', message: `Getting clearer` };
+  return { level: 'High', message: `High confidence` };
 };
 
 export interface LeaderboardEntry {
