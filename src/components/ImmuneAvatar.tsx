@@ -40,12 +40,11 @@ export const ImmuneAvatar = ({ state, color, scale = 1, size = 120 }: ImmuneAvat
           src={getCustomAvatarPath()}
           alt={`${state} avatar`}
           style={{
-            width: size,
-            height: size,
-            objectFit: 'contain',
-            imageRendering: 'auto',
-            filter: `drop-shadow(0 3px ${scale * 8}px ${color}30)`,
-            WebkitFontSmoothing: 'antialiased',
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            imageRendering: 'crisp-edges',
+            filter: `drop-shadow(0 4px 12px ${color}35)`,
           }}
         />
       </div>

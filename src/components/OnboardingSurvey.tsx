@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 interface SurveyAnswers {
-  sleepQuality: string;
-  fatigueFrequency: string;
-  tracksHealth: string;
-  mainGoal: string;
+  sex: string;
+  symptoms: string[];
+  sleep: string;
+  exercise: string;
+  stress: string;
+  diet: string[];
 }
 
 interface OnboardingSurveyProps {
@@ -14,29 +16,48 @@ interface OnboardingSurveyProps {
 
 export const OnboardingSurvey = ({ onComplete }: OnboardingSurveyProps) => {
   const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<Partial<SurveyAnswers>>({});
+  const [answers, setAnswers] = useState<Partial<SurveyAnswers>>({
+    symptoms: [],
+    diet: [],
+  });
   const [selectedAvatar, setSelectedAvatar] = useState<'Explorer' | 'Calm' | 'Charger'>('Explorer');
 
   const questions = [
     {
-      question: "How's your average sleep quality?",
-      key: 'sleepQuality' as const,
-      options: ['Good', 'Fair', 'Poor'],
+      question: "Sex assigned at birth",
+      key: 'sex' as const,
+      type: 'single' as const,
+      options: ['Male', 'Female', 'Prefer not to say'],
     },
     {
-      question: "How often do you feel fatigued?",
-      key: 'fatigueFrequency' as const,
-      options: ['Rarely', 'Sometimes', 'Often'],
+      question: "Top symptoms you experience",
+      key: 'symptoms' as const,
+      type: 'multi' as const,
+      options: ['Fatigue', 'Joint pain', 'Brain fog', 'Digestive issues', 'Skin flare-ups', 'Other'],
     },
     {
-      question: "Do you track health data?",
-      key: 'tracksHealth' as const,
-      options: ['Yes', 'No', 'Sometimes'],
+      question: "Average sleep per night",
+      key: 'sleep' as const,
+      type: 'single' as const,
+      options: ['<5h', '5–6h', '6–7h', '7–8h', '8+ h'],
     },
     {
-      question: "What's your main health goal?",
-      key: 'mainGoal' as const,
-      options: ['Energy', 'Sleep', 'Mood', 'Understanding patterns'],
+      question: "Exercise frequency per week",
+      key: 'exercise' as const,
+      type: 'single' as const,
+      options: ['None', '1–2 days', '3–4 days', '5+ days'],
+    },
+    {
+      question: "Typical stress level",
+      key: 'stress' as const,
+      type: 'single' as const,
+      options: ['Low', 'Medium', 'High'],
+    },
+    {
+      question: "Dietary restrictions or special diet",
+      key: 'diet' as const,
+      type: 'multi' as const,
+      options: ['None', 'Gluten-free', 'Dairy-free', 'Vegetarian', 'Vegan', 'Other'],
     },
   ];
 
@@ -48,12 +69,31 @@ export const OnboardingSurvey = ({ onComplete }: OnboardingSurveyProps) => {
 
   const handleAnswer = (value: string) => {
     const currentQuestion = questions[step];
-    setAnswers(prev => ({ ...prev, [currentQuestion.key]: value }));
-    
+
+    if (currentQuestion.type === 'multi') {
+      const currentValues = (answers[currentQuestion.key] as string[]) || [];
+      const newValues = currentValues.includes(value)
+        ? currentValues.filter(v => v !== value)
+        : [...currentValues, value];
+      setAnswers(prev => ({ ...prev, [currentQuestion.key]: newValues }));
+    } else {
+      setAnswers(prev => ({ ...prev, [currentQuestion.key]: value }));
+      // Auto-advance for single-select
+      setTimeout(() => {
+        if (step < questions.length - 1) {
+          setStep(step + 1);
+        } else {
+          setStep(questions.length);
+        }
+      }, 200);
+    }
+  };
+
+  const handleNext = () => {
     if (step < questions.length - 1) {
       setStep(step + 1);
     } else {
-      setStep(questions.length); // Move to avatar selection
+      setStep(questions.length);
     }
   };
 
@@ -94,23 +134,47 @@ export const OnboardingSurvey = ({ onComplete }: OnboardingSurveyProps) => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <h2 className="text-2xl font-bold mb-6">
+              <h2 className="text-2xl font-bold mb-2">
                 {questions[step].question}
               </h2>
+              {questions[step].type === 'multi' && (
+                <p className="text-sm text-muted-foreground mb-4">Select all that apply</p>
+              )}
 
               <div className="space-y-3">
-                {questions[step].options.map((option) => (
-                  <motion.button
-                    key={option}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => handleAnswer(option)}
-                    className="w-full p-4 rounded-2xl bg-muted hover:bg-primary hover:text-primary-foreground font-semibold transition-all text-left shadow-sm"
-                  >
-                    {option}
-                  </motion.button>
-                ))}
+                {questions[step].options.map((option) => {
+                  const isSelected = questions[step].type === 'multi'
+                    ? ((answers[questions[step].key] as string[]) || []).includes(option)
+                    : answers[questions[step].key] === option;
+
+                  return (
+                    <motion.button
+                      key={option}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => handleAnswer(option)}
+                      className={`w-full p-4 rounded-2xl font-semibold transition-all text-left shadow-sm ${
+                        isSelected
+                          ? 'bg-primary text-primary-foreground shadow-button'
+                          : 'bg-muted hover:bg-muted/80'
+                      }`}
+                    >
+                      {option}
+                    </motion.button>
+                  );
+                })}
               </div>
+
+              {questions[step].type === 'multi' && (
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleNext}
+                  className="w-full mt-6 py-3 rounded-2xl bg-primary text-primary-foreground font-bold shadow-button hover:shadow-lg transition-all"
+                >
+                  Continue
+                </motion.button>
+              )}
             </motion.div>
           </>
         ) : (
