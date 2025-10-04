@@ -171,23 +171,52 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="max-w-2xl mx-auto px-4 py-6 space-y-6">
-              {/* Avatar Card */}
-              <div className="bg-card rounded-3xl shadow-card p-8 text-center">
-                <h2 className="text-xl font-bold mb-4">Your Immune Twin</h2>
-                <div className="flex justify-center mb-4">
-                  <ImmuneAvatar
-                    state={avatarState.state}
-                    color={avatarState.color}
-                    scale={avatarState.scale}
-                    size={240}
-                    avatarType={user.avatarType}
-                  />
+              {/* Avatar Card with Nature Background */}
+              <div className="bg-card rounded-3xl shadow-card overflow-hidden">
+                {/* Nature Background Scene */}
+                <div className="relative bg-gradient-to-b from-sky-200 to-green-100 p-6 pb-8">
+                  {/* Sky & Clouds */}
+                  <div className="absolute top-4 right-8 opacity-60">
+                    <div className="text-4xl">☁️</div>
+                  </div>
+                  <div className="absolute top-8 left-12 opacity-40">
+                    <div className="text-3xl">☁️</div>
+                  </div>
+
+                  {/* Sun */}
+                  <div className="absolute top-4 left-4">
+                    <div className="text-3xl">☀️</div>
+                  </div>
+
+                  {/* Avatar */}
+                  <div className="flex justify-center relative z-10 pt-4">
+                    <ImmuneAvatar
+                      state={avatarState.state}
+                      color={avatarState.color}
+                      scale={avatarState.scale}
+                      size={140}
+                      avatarType={user.avatarType}
+                    />
+                  </div>
+
+                  {/* Ground with grass and trees */}
+                  <div className="absolute bottom-0 left-0 right-0 flex items-end justify-around px-4 pb-2">
+                    <div className="text-2xl">🌳</div>
+                    <div className="text-xl">🌿</div>
+                    <div className="text-2xl">🌲</div>
+                    <div className="text-xl">🌱</div>
+                  </div>
                 </div>
-                <p className="text-muted-foreground">
-                  {(avatarState.state === 'Happy' || avatarState.state === 'Energized') && "Your twin feels great today! 😊"}
-                  {avatarState.state === 'Neutral' && "Your twin is feeling steady 👍"}
-                  {(avatarState.state === 'Low' || avatarState.state === 'Tired') && "Your twin needs some care 💙"}
-                </p>
+
+                {/* Text Section */}
+                <div className="p-5 text-center">
+                  <h2 className="text-lg font-bold mb-2">Your Health Twin</h2>
+                  <p className="text-sm text-muted-foreground">
+                    {(avatarState.state === 'Happy' || avatarState.state === 'Energized') && "Feeling great today! 😊"}
+                    {avatarState.state === 'Neutral' && "Feeling steady 👍"}
+                    {(avatarState.state === 'Low' || avatarState.state === 'Tired') && "Needs some care 💙"}
+                  </p>
+                </div>
               </div>
 
               {/* Latest Insight */}
