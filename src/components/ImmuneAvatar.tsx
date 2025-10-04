@@ -26,9 +26,9 @@ export const ImmuneAvatar = ({ state, color, scale = 1, size = 120 }: ImmuneAvat
     };
 
     return (
-      <div 
-        style={{ 
-          width: size, 
+      <div
+        style={{
+          width: size,
           height: size,
           display: 'flex',
           alignItems: 'center',
@@ -40,12 +40,12 @@ export const ImmuneAvatar = ({ state, color, scale = 1, size = 120 }: ImmuneAvat
           src={getCustomAvatarPath()}
           alt={`${state} avatar`}
           style={{
-            maxWidth: '100%',
-            maxHeight: '100%',
-            width: 'auto',
-            height: 'auto',
+            width: size,
+            height: size,
             objectFit: 'contain',
-            filter: `drop-shadow(0 2px ${scale * 6}px ${color}40)`
+            imageRendering: 'auto',
+            filter: `drop-shadow(0 3px ${scale * 8}px ${color}30)`,
+            WebkitFontSmoothing: 'antialiased',
           }}
         />
       </div>
