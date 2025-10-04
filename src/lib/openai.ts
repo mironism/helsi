@@ -11,14 +11,9 @@ export const initializeOpenAI = async () => {
       return null;
     }
 
-    const { OpenAI } = await import('openai');
-    const client = new OpenAI({
-      apiKey: apiKey,
-      dangerouslyAllowBrowser: true
-    });
-    
-    console.log('OpenAI client initialized successfully');
-    return client;
+    // OpenAI integration temporarily disabled for production builds
+    console.log('OpenAI integration disabled for production builds');
+    return null;
   } catch (error) {
     console.log('OpenAI not available:', error);
     return null;
