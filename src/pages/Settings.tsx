@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { User, Edit2, Trash2, LogOut, Bell, Shield, HelpCircle, RotateCcw } from 'lucide-react';
-import { getUser, saveUser, resetDemo } from '@/lib/storage';
+import { getUser, saveUser, resetDemo } from '../lib/storage';
 import { toast } from 'sonner';
 
 const Settings = () => {

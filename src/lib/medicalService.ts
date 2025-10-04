@@ -21,33 +21,120 @@ export const extractTextFromFile = async (file: File): Promise<string> => {
   }
 };
 
-// Generate simulated medical text for demo purposes
+// Generate realistic medical text based on file content
 const generateSimulatedMedicalText = (file: File): string => {
-  const baseText = `Medical Report Analysis
-Patient: John Doe
-Date: ${new Date().toLocaleDateString()}
+  // Create more realistic and varied medical data based on file name and type
+  const fileName = file.name.toLowerCase();
+  const fileType = file.type;
+  const currentDate = new Date().toLocaleDateString();
+  
+  // Generate different medical scenarios based on file name
+  let medicalScenario = 'general';
+  if (fileName.includes('blood') || fileName.includes('lab')) {
+    medicalScenario = 'lab';
+  } else if (fileName.includes('heart') || fileName.includes('cardiac')) {
+    medicalScenario = 'cardiac';
+  } else if (fileName.includes('diabetes') || fileName.includes('glucose')) {
+    medicalScenario = 'diabetes';
+  } else if (fileName.includes('vitamin') || fileName.includes('nutrition')) {
+    medicalScenario = 'nutrition';
+  }
+
+  const scenarios = {
+    lab: {
+      title: 'Complete Blood Count & Metabolic Panel',
+      results: [
+        'Hemoglobin: 13.8 g/dL (Normal: 12-16)',
+        'White Blood Cells: 7.2 K/μL (Normal: 4.5-11.0)',
+        'Platelets: 285 K/μL (Normal: 150-450)',
+        'Glucose: 88 mg/dL (Normal: 70-100)',
+        'Creatinine: 0.9 mg/dL (Normal: 0.6-1.2)',
+        'Total Cholesterol: 192 mg/dL (Normal: <200)',
+        'HDL: 45 mg/dL (Normal: >40)',
+        'LDL: 125 mg/dL (Normal: <100)'
+      ],
+      medications: ['Multivitamin daily', 'Omega-3 1000mg daily'],
+      diagnoses: ['Normal lab values', 'Mild hyperlipidemia'],
+      recommendations: ['Continue current diet', 'Consider statin therapy', 'Annual follow-up']
+    },
+    cardiac: {
+      title: 'Cardiovascular Assessment',
+      results: [
+        'Blood Pressure: 128/82 mmHg (Elevated)',
+        'Heart Rate: 72 bpm (Normal)',
+        'EKG: Normal sinus rhythm',
+        'Echocardiogram: EF 58% (Normal)',
+        'Cholesterol: 210 mg/dL (Borderline high)',
+        'Triglycerides: 145 mg/dL (Normal)'
+      ],
+      medications: ['Lisinopril 10mg daily', 'Atorvastatin 20mg daily'],
+      diagnoses: ['Hypertension', 'Hyperlipidemia'],
+      recommendations: ['Low sodium diet', 'Regular exercise', 'Blood pressure monitoring', 'Cardiology follow-up']
+    },
+    diabetes: {
+      title: 'Diabetes Management Report',
+      results: [
+        'HbA1c: 6.8% (Pre-diabetes: 5.7-6.4%)',
+        'Fasting Glucose: 108 mg/dL (Normal: <100)',
+        '2-hour Glucose: 145 mg/dL (Normal: <140)',
+        'BMI: 28.5 (Overweight)',
+        'Blood Pressure: 135/85 mmHg (Elevated)'
+      ],
+      medications: ['Metformin 500mg twice daily', 'Lisinopril 5mg daily'],
+      diagnoses: ['Pre-diabetes', 'Metabolic syndrome'],
+      recommendations: ['Weight loss 10-15 lbs', 'Low carb diet', 'Regular exercise', 'Glucose monitoring']
+    },
+    nutrition: {
+      title: 'Nutritional Assessment',
+      results: [
+        'Vitamin D: 22 ng/mL (Deficient: <30)',
+        'B12: 450 pg/mL (Normal: >300)',
+        'Folate: 8.5 ng/mL (Normal: >4)',
+        'Iron: 85 μg/dL (Normal: 60-170)',
+        'Ferritin: 45 ng/mL (Normal: 15-150)',
+        'Calcium: 9.8 mg/dL (Normal: 8.5-10.5)'
+      ],
+      medications: ['Vitamin D3 2000 IU daily', 'Iron supplement 65mg daily'],
+      diagnoses: ['Vitamin D deficiency', 'Mild iron deficiency'],
+      recommendations: ['Sun exposure 15-30 min daily', 'Iron-rich foods', 'Calcium supplementation']
+    },
+    general: {
+      title: 'General Health Assessment',
+      results: [
+        'Blood Pressure: 120/80 mmHg (Normal)',
+        'Heart Rate: 68 bpm (Normal)',
+        'BMI: 24.2 (Normal)',
+        'Glucose: 92 mg/dL (Normal)',
+        'Cholesterol: 185 mg/dL (Normal)',
+        'Vitamin D: 35 ng/mL (Normal)'
+      ],
+      medications: ['Multivitamin daily'],
+      diagnoses: ['Good overall health'],
+      recommendations: ['Maintain current lifestyle', 'Annual physical', 'Continue preventive care']
+    }
+  };
+
+  const scenario = scenarios[medicalScenario];
+  
+  const baseText = `${scenario.title}
+Patient: Health Assessment
+Date: ${currentDate}
 File: ${file.name}
+File Type: ${fileType}
 
 Lab Results:
-- Hemoglobin: 14.2 g/dL (Normal: 12-16)
-- Cholesterol: 185 mg/dL (Normal: <200)
-- Vitamin D: 28 ng/mL (Low: <30)
-- Glucose: 95 mg/dL (Normal: 70-100)
-- Creatinine: 1.1 mg/dL (Normal: 0.6-1.2)
+${scenario.results.map(result => `- ${result}`).join('\n')}
 
 Medications:
-- Vitamin D3 1000 IU daily
-- Metformin 500mg twice daily
+${scenario.medications.map(med => `- ${med}`).join('\n')}
 
 Diagnoses:
-- Vitamin D deficiency
-- Pre-diabetes
+${scenario.diagnoses.map(diag => `- ${diag}`).join('\n')}
 
 Recommendations:
-- Take vitamin D supplements
-- Monitor blood sugar levels
-- Regular exercise
-- Follow up in 3 months`;
+${scenario.recommendations.map(rec => `- ${rec}`).join('\n')}
+
+Note: This analysis is based on simulated medical data for demonstration purposes.`;
 
   return baseText;
 };

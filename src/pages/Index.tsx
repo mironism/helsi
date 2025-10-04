@@ -204,7 +204,7 @@ const Index = () => {
         <motion.div
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="fixed bottom-24 left-0 right-0 z-40 px-4"
+          className="fixed bottom-32 left-0 right-0 z-40 px-4"
         >
           <div className="max-w-2xl mx-auto bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl p-5">
             <div className="flex items-start gap-3">

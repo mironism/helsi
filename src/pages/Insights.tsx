@@ -9,9 +9,16 @@ const Insights = () => {
   const logs = getLogs();
   const confidence = getConfidenceLevel();
 
+  console.log('Insights page - user:', user);
+  console.log('Insights page - logs:', logs.length);
+  console.log('Insights page - confidence:', confidence);
+
   // Calculate insights from data
   const insights = useMemo(() => {
+    console.log('Calculating insights for', logs.length, 'logs');
+    
     if (logs.length < 2) {
+      console.log('Not enough logs for insights');
       return {
         recovery: 0,
         strain: 0,
@@ -105,7 +112,9 @@ const Insights = () => {
       });
     }
 
-    return { recovery, strain, sleepScore, trends, recommendations };
+    const result = { recovery, strain, sleepScore, trends, recommendations };
+    console.log('Calculated insights:', result);
+    return result;
   }, [logs]);
 
   if (!user) return null;
