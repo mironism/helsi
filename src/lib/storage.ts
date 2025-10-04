@@ -27,9 +27,47 @@ export interface Log {
   supplements?: string;
 }
 
+export interface Biomarker {
+  name: string;
+  value: number;
+  unit: string;
+  referenceRange: string;
+  status: 'normal' | 'high' | 'low';
+}
+
+export interface Medication {
+  name: string;
+  dosage?: string;
+  frequency?: string;
+  reason?: string;
+}
+
+export interface ExtractedMedicalData {
+  documentType: string;
+  summary: string;
+  biomarkers: Biomarker[];
+  medications: Medication[];
+  diagnoses: string[];
+  recommendations: string[];
+  extractedAt: string;
+}
+
+export interface MedicalDocument {
+  id: string;
+  uploadDate: string;
+  userId: string;
+  fileName: string;
+  fileType: 'image' | 'pdf' | 'lab_report';
+  processingStatus: 'processing' | 'completed' | 'failed';
+  fileSize: number;
+  mimeType: string;
+  extractedData?: ExtractedMedicalData;
+}
+
 const STORAGE_KEYS = {
   USER: 'immune_graph_user',
   LOGS: 'immune_graph_logs',
+  MEDICAL_DOCS: 'immune_graph_medical_docs',
 };
 
 // User operations
@@ -117,7 +155,158 @@ export const seedDemoData = (): void => {
   saveLogs(demoLogs);
 };
 
+// Medical document operations
+export const getMedicalDocuments = (): MedicalDocument[] => {
+  const data = localStorage.getItem(STORAGE_KEYS.MEDICAL_DOCS);
+  return data ? JSON.parse(data) : [];
+};
+
+export const saveMedicalDocuments = (docs: MedicalDocument[]): void => {
+  localStorage.setItem(STORAGE_KEYS.MEDICAL_DOCS, JSON.stringify(docs));
+};
+
+export const addMedicalDocument = (doc: MedicalDocument): MedicalDocument => {
+  const docs = getMedicalDocuments();
+  docs.push(doc);
+  saveMedicalDocuments(docs);
+  return doc;
+};
+
+export const updateMedicalDocument = (id: string, updates: Partial<MedicalDocument>): void => {
+  const docs = getMedicalDocuments();
+  const index = docs.findIndex(doc => doc.id === id);
+  if (index !== -1) {
+    docs[index] = { ...docs[index], ...updates };
+    saveMedicalDocuments(docs);
+  }
+};
+
 export const resetDemo = (): void => {
   localStorage.removeItem(STORAGE_KEYS.USER);
   localStorage.removeItem(STORAGE_KEYS.LOGS);
+  localStorage.removeItem(STORAGE_KEYS.MEDICAL_DOCS);
+};
+
+// Insights interface
+export interface Insight {
+  recovery: number;
+  strain: number;
+  sleepScore: number;
+  trends: Array<{
+    title: string;
+    value: string;
+    trend: 'up' | 'down';
+    icon: any;
+    color: string;
+  }>;
+  recommendations: Array<{
+    title: string;
+    description: string;
+    priority: 'high' | 'medium' | 'low';
+  }>;
+}
+
+// Generate insights from logs
+export const getInsights = (): Insight => {
+  const logs = getLogs();
+  
+  if (logs.length < 2) {
+    return {
+      recovery: 0,
+      strain: 0,
+      sleepScore: 0,
+      trends: [],
+      recommendations: []
+    };
+  }
+
+  // Calculate recovery score based on recent logs
+  const recentLogs = logs.slice(-7); // Last 7 days
+  const goodSleepCount = recentLogs.filter(l => l.sleep === 'Good').length;
+  const happyMoodCount = recentLogs.filter(l => l.mood === 'Happy').length;
+  const lowStressCount = recentLogs.filter(l => l.stress === 'Low').length;
+  
+  const recovery = Math.round(((goodSleepCount + happyMoodCount + lowStressCount) / (recentLogs.length * 3)) * 100);
+  
+  // Calculate strain (based on stress and activity)
+  const highStressCount = recentLogs.filter(l => l.stress === 'High').length;
+  const strain = Math.min(21, Math.round((highStressCount / recentLogs.length) * 21));
+  
+  // Calculate sleep score
+  const sleepScore = Math.round((goodSleepCount / recentLogs.length) * 100);
+  
+  // Generate trends
+  const trends = [];
+  if (goodSleepCount > recentLogs.length / 2) {
+    trends.push({
+      title: 'Sleep Quality',
+      value: `${goodSleepCount}/${recentLogs.length} good nights`,
+      trend: 'up' as const,
+      icon: 'Moon',
+      color: 'text-blue-500'
+    });
+  }
+  
+  if (happyMoodCount > recentLogs.length / 2) {
+    trends.push({
+      title: 'Mood Trend',
+      value: `${happyMoodCount}/${recentLogs.length} happy days`,
+      trend: 'up' as const,
+      icon: 'Smile',
+      color: 'text-green-500'
+    });
+  }
+  
+  if (lowStressCount < recentLogs.length / 2) {
+    trends.push({
+      title: 'Stress Levels',
+      value: `${recentLogs.length - lowStressCount}/${recentLogs.length} high stress days`,
+      trend: 'down' as const,
+      icon: 'AlertTriangle',
+      color: 'text-red-500'
+    });
+  }
+  
+  // Generate recommendations
+  const recommendations = [];
+  
+  if (recovery < 50) {
+    recommendations.push({
+      title: 'Focus on Recovery',
+      description: 'Your recovery score is low. Prioritize sleep and stress management.',
+      priority: 'high' as const
+    });
+  }
+  
+  if (sleepScore < 70) {
+    recommendations.push({
+      title: 'Improve Sleep Quality',
+      description: 'Consistent sleep hygiene can boost your energy and mood.',
+      priority: 'medium' as const
+    });
+  }
+  
+  if (strain > 15) {
+    recommendations.push({
+      title: 'Manage Stress',
+      description: 'High strain detected. Consider meditation or relaxation techniques.',
+      priority: 'high' as const
+    });
+  }
+  
+  if (recentLogs.filter(l => l.supplements === 'Taken').length < recentLogs.length / 2) {
+    recommendations.push({
+      title: 'Consistent Supplements',
+      description: 'Taking supplements regularly can support your immune system.',
+      priority: 'low' as const
+    });
+  }
+  
+  return {
+    recovery,
+    strain,
+    sleepScore,
+    trends,
+    recommendations
+  };
 };

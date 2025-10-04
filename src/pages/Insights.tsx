@@ -1,8 +1,8 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { TrendingUp, TrendingDown, Zap, Moon, Brain, Activity, Calendar, Target } from 'lucide-react';
-import { getLogs, getUser } from '@/lib/storage';
-import { getConfidenceLevel } from '@/lib/gamification';
+import { getLogs, getUser } from '../lib/storage';
+import { getConfidenceLevel } from '../lib/gamification';
 
 const Insights = () => {
   const user = getUser();
