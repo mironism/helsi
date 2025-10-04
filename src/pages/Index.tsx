@@ -210,27 +210,6 @@ const Index = () => {
                 </motion.div>
               )}
 
-              {/* Demo Controls */}
-              <div className="bg-card rounded-3xl shadow-card p-6">
-                <h3 className="font-bold mb-4 flex items-center gap-2">
-                  <Trophy className="w-5 h-5 text-accent" />
-                  Demo Controls
-                </h3>
-                <div className="space-y-3">
-                  <button
-                    onClick={handleSeedDemo}
-                    className="w-full py-4 bg-gradient-accent text-accent-foreground rounded-2xl font-semibold hover:shadow-lg transition-all text-center"
-                  >
-                    View Perfect Journey
-                  </button>
-                  <button
-                    onClick={handleResetDemo}
-                    className="w-full py-3 bg-muted text-foreground rounded-2xl font-semibold hover:bg-muted/80 transition-all"
-                  >
-                    Reset Demo
-                  </button>
-                </div>
-              </div>
       </main>
 
       {/* Floating Action Button */}
