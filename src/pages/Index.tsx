@@ -160,20 +160,24 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Header - Simplified Stats Only */}
-      <header className="relative z-10 py-3">
+      {/* Header - Prominent Stats */}
+      <header className="relative z-10 py-6">
         <div className="max-w-2xl mx-auto">
-          <div className="flex items-center justify-center gap-8 bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 mx-4 shadow-lg">
-            <div className="flex items-center gap-2">
-              <Zap className="w-4 h-4 text-amber-400" />
-              <span className="text-xs text-white/90 font-medium">XP</span>
-              <p className="text-lg font-bold text-white">{user.xp}</p>
+          <div className="flex items-center justify-center gap-12 bg-white/25 backdrop-blur-md rounded-3xl px-8 py-6 mx-4 shadow-2xl">
+            <div className="flex flex-col items-center gap-1">
+              <div className="flex items-center gap-2">
+                <Zap className="w-6 h-6 text-amber-400" />
+                <span className="text-sm text-white/90 font-semibold">XP</span>
+              </div>
+              <p className="text-3xl font-bold text-white">{user.xp}</p>
             </div>
-            <div className="w-px h-6 bg-white/30"></div>
-            <div className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-amber-400" />
-              <span className="text-xs text-white/90 font-medium">Streak</span>
-              <p className="text-lg font-bold text-white animate-flicker">
+            <div className="w-px h-12 bg-white/40"></div>
+            <div className="flex flex-col items-center gap-1">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="w-6 h-6 text-amber-400" />
+                <span className="text-sm text-white/90 font-semibold">Streak</span>
+              </div>
+              <p className="text-3xl font-bold text-white animate-flicker">
                 🔥 {user.streak}
               </p>
             </div>

@@ -17,7 +17,7 @@ const BottomNav = ({ onAddClick }: BottomNavProps) => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-md border-t border-border z-50">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white/20 backdrop-blur-sm border-t border-white/30 z-50">
       <div className="max-w-2xl mx-auto px-4">
         <div className="flex items-end justify-around h-16 relative">
           {navItems.slice(0, 2).map((item) => {
@@ -31,14 +31,14 @@ const BottomNav = ({ onAddClick }: BottomNavProps) => {
                 {isActive && (
                   <motion.div
                     layoutId="activeTab"
-                    className="absolute inset-x-0 top-0 h-0.5 bg-primary"
+                    className="absolute inset-x-0 top-0 h-0.5 bg-amber-500"
                     transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                   />
                 )}
                 <motion.div
                   animate={{
                     scale: isActive ? 1.1 : 1,
-                    color: isActive ? 'hsl(160, 45%, 52%)' : 'hsl(220, 10%, 40%)',
+                    color: isActive ? 'hsl(25, 95%, 53%)' : 'hsl(215, 13%, 34%)',
                   }}
                   transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   className="flex flex-col items-center"
@@ -56,7 +56,7 @@ const BottomNav = ({ onAddClick }: BottomNavProps) => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={onAddClick}
-              className="absolute -top-6 w-16 h-16 bg-gradient-accent text-accent-foreground rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-all"
+              className="absolute -top-6 w-16 h-16 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-all"
             >
               <Plus className="w-8 h-8" />
             </motion.button>
@@ -73,14 +73,14 @@ const BottomNav = ({ onAddClick }: BottomNavProps) => {
                 {isActive && (
                   <motion.div
                     layoutId="activeTab"
-                    className="absolute inset-x-0 top-0 h-0.5 bg-primary"
+                    className="absolute inset-x-0 top-0 h-0.5 bg-amber-500"
                     transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                   />
                 )}
                 <motion.div
                   animate={{
                     scale: isActive ? 1.1 : 1,
-                    color: isActive ? 'hsl(160, 45%, 52%)' : 'hsl(220, 10%, 40%)',
+                    color: isActive ? 'hsl(25, 95%, 53%)' : 'hsl(215, 13%, 34%)',
                   }}
                   transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   className="flex flex-col items-center"
