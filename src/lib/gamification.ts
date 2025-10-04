@@ -94,32 +94,40 @@ export const getAvatarState = (): {
   const logs = getLogs();
   
   if (!user || logs.length === 0) {
-    return { state: 'Neutral', color: 'hsl(195, 92%, 54%)', scale: 1.0 };
+    return { state: 'Neutral', color: 'hsl(180, 25%, 65%)', scale: 1.0 }; // Soft aqua
   }
-  
+
   // Get most recent log
   const recentLog = logs[logs.length - 1];
-  
+
   // Determine state based on mood + sleep + stress
   let state: 'Happy' | 'Neutral' | 'Low' | 'Energized' | 'Tired' = 'Neutral';
-  let color = 'hsl(195, 92%, 54%)'; // blue
-  
+  let color = 'hsl(180, 25%, 65%)'; // Soft aqua
+
+  // FIXED LOGIC: Good mood + good sleep = Energized
   if (recentLog.mood === 'Happy' && recentLog.sleep === 'Good') {
     state = 'Energized';
-    color = 'hsl(45, 100%, 51%)'; // yellow
-  } else if (recentLog.mood === 'Happy') {
-    state = 'Happy';
-    color = 'hsl(100, 98%, 42%)'; // green
-  } else if (recentLog.mood === 'Low' || recentLog.stress === 'High') {
-    state = 'Low';
-    color = 'hsl(0, 100%, 64%)'; // red
-  } else if (recentLog.sleep === 'Poor') {
-    state = 'Tired';
-    color = 'hsl(0, 0%, 62%)'; // gray
+    color = 'hsl(145, 55%, 55%)'; // Vibrant green
   }
-  
-  // Scale based on streak
-  const scale = 1.0 + (user.streak * 0.05);
+  // Good mood = Happy
+  else if (recentLog.mood === 'Happy') {
+    state = 'Happy';
+    color = 'hsl(50, 88%, 60%)'; // Sunny yellow
+  }
+  // Poor sleep = Tired
+  else if (recentLog.sleep === 'Poor') {
+    state = 'Tired';
+    color = 'hsl(215, 30%, 50%)'; // Deeper blue
+  }
+  // Low mood or high stress = Low
+  else if (recentLog.mood === 'Low' || recentLog.stress === 'High') {
+    state = 'Low';
+    color = 'hsl(345, 60%, 62%)'; // Muted pink-red
+  }
+  // Default to Neutral for neutral mood + good sleep + low stress
+
+  // Scale based on streak (but keep it at 1.0 since we fixed scale)
+  const scale = 1.0;
   
   return { state, color, scale };
 };

@@ -2,71 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* Health & Wellness Palette - Optimized for Calm & Trust
+   Designed for autoimmune health tracking (25-45 y/o)
+   Psychology: Soft, natural, hopeful, non-clinical
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 24%;
+    /* Backgrounds - Soft, warm neutrals (inviting, not sterile) */
+    --background: 30 25% 97%;           /* Soft warm white #FAF8F6 */
+    --foreground: 220 15% 25%;          /* Charcoal grey #373D47 */
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 24%;
+    --card: 0 0% 100%;                  /* Pure white cards for contrast */
+    --card-foreground: 220 15% 25%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 24%;
+    --popover-foreground: 220 15% 25%;
 
-    /* Softer green for primary actions */
-    --primary: 142 71% 45%;
+    /* Core Colors - Calming health palette */
+    --primary: 160 45% 52%;             /* Soft teal/sage #4CAF93 - Health, growth, calm */
     --primary-foreground: 0 0% 100%;
-    
-    /* Calmer blue for info/neutral */
-    --secondary: 217 91% 60%;
+
+    --secondary: 215 25% 45%;           /* Muted navy #56678F - Trust, stability */
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 30 20% 94%;                /* Warm sand #F5F2EF - Comfortable background */
+    --muted-foreground: 220 10% 40%;
 
-    /* Warmer orange for energy */
-    --accent: 25 95% 53%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 38 92% 58%;               /* Warm amber #F5A623 - Energy, optimism */
+    --accent-foreground: 220 15% 25%;
 
-    /* Softer red for low mood/stress */
-    --destructive: 0 84% 60%;
+    /* Destructive - Gentle warning (not alarming) */
+    --destructive: 355 65% 58%;         /* Soft rose-red #D95F5F */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 92%;
-    --input: 0 0% 92%;
-    --ring: 142 71% 45%;
+    --border: 30 15% 88%;               /* Subtle warm border */
+    --input: 30 15% 88%;
+    --ring: 160 45% 52%;                /* Primary teal for focus */
 
     --radius: 1.5rem;
 
-    /* Additional colors for avatar states */
-    --energized: 43 96% 56%;
-    --tired: 0 0% 62%;
-    --happy: 142 71% 45%;
-    --neutral: 217 91% 60%;
-    --low: 0 84% 60%;
+    /* Avatar mood states - Psychologically distinct colors */
+    --energized: 145 55% 55%;           /* Vibrant green #48C77D - High energy, vitality */
+    --tired: 215 30% 50%;               /* Deeper blue #5A7DB3 - Low energy, rest needed */
+    --happy: 50 88% 60%;                /* Sunny yellow #F5D547 - Joy, positivity */
+    --neutral: 180 25% 65%;             /* Soft aqua #8FC4C4 - Balanced, steady */
+    --low: 345 60% 62%;                 /* Muted pink-red #D96B7B - Needs attention */
 
-    /* Softer gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(142, 71%, 45%), hsl(158, 64%, 52%));
-    --gradient-secondary: linear-gradient(135deg, hsl(217, 91%, 60%), hsl(221, 83%, 53%));
-    --gradient-accent: linear-gradient(135deg, hsl(25, 95%, 53%), hsl(33, 100%, 52%));
-    
-    /* Shadows */
-    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
-    --shadow-button: 0 2px 6px rgba(16, 185, 129, 0.2);
-    --shadow-energized: 0 0 16px rgba(251, 191, 36, 0.3);
+    /* Gradients - Soft, natural transitions */
+    --gradient-primary: linear-gradient(135deg, hsl(160, 45%, 52%), hsl(170, 50%, 48%));
+    --gradient-secondary: linear-gradient(135deg, hsl(215, 25%, 45%), hsl(220, 30%, 52%));
+    --gradient-accent: linear-gradient(135deg, hsl(38, 92%, 58%), hsl(45, 88%, 60%));
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Shadows - Very soft, natural (not harsh) */
+    --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.04);
+    --shadow-button: 0 3px 10px rgba(76, 175, 147, 0.2);
+    --shadow-energized: 0 0 20px rgba(72, 199, 125, 0.3);
+
+    --sidebar-background: 30 25% 97%;
+    --sidebar-foreground: 220 15% 25%;
+    --sidebar-primary: 215 25% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 30 20% 94%;
+    --sidebar-accent-foreground: 220 15% 25%;
+    --sidebar-border: 30 15% 88%;
+    --sidebar-ring: 160 45% 52%;
   }
 }
 

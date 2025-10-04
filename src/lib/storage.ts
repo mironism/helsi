@@ -108,11 +108,11 @@ export const seedDemoData = (): void => {
     id: `log_${i}`,
     userId: 'demo_user',
     timestamp: new Date(Date.now() - (6 - i) * 24 * 60 * 60 * 1000).toISOString(),
-    food: i % 2 === 0 ? 'Clean' : 'Sugar',
-    sleep: i % 3 === 0 ? 'Poor' : 'Good',
-    mood: i % 2 === 0 ? 'Happy' : 'Neutral',
-    stress: i % 3 === 0 ? 'High' : 'Low',
-    supplements: 'Taken',
+    food: 'Clean', // Always clean food for perfect journey
+    sleep: 'Good', // Always good sleep for perfect journey
+    mood: 'Happy', // Always happy mood for perfect journey
+    stress: 'Low', // Always low stress for perfect journey
+    supplements: 'Taken', // Always taking supplements for perfect journey
   }));
   saveLogs(demoLogs);
 };

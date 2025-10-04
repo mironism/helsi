@@ -76,12 +76,15 @@ export const LoggingModal = ({ isOpen, onClose, onSubmit }: LoggingModalProps) =
   };
 
   const handleSubmit = () => {
+    // Check if user logged "bad" data but was honest
+    const hasNegativeData = logData.mood === 'Low' || logData.stress === 'High' || logData.sleep === 'Poor' || logData.food === 'Alcohol' || logData.supplements === 'Skipped';
+    
     // Trigger confetti
     confetti({
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 },
-      colors: ['#58CC02', '#1CB0F6', '#FF9600'],
+      colors: hasNegativeData ? ['#FF6B6B', '#4ECDC4', '#45B7D1'] : ['#58CC02', '#1CB0F6', '#FF9600'],
     });
 
     onSubmit(logData);

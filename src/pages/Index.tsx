@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Plus, Zap, TrendingUp, Trophy, RotateCcw, Sparkles } from 'lucide-react';
 import { ImmuneAvatar } from '@/components/ImmuneAvatar';
 import { LoggingModal } from '@/components/LoggingModal';
@@ -30,7 +30,6 @@ const Index = () => {
   const [isLoggingModalOpen, setIsLoggingModalOpen] = useState(false);
   const [avatarState, setAvatarState] = useState(getAvatarState());
   const [latestInsight, setLatestInsight] = useState<string>('');
-  const [activeTab, setActiveTab] = useState<'home' | 'leaderboard'>('home');
 
   useEffect(() => {
     const currentUser = getUser();
@@ -51,7 +50,7 @@ const Index = () => {
     const newUser = createUser(answers, avatarType);
     setUser(newUser);
     setShowSurvey(false);
-    toast.success('Welcome to The Immune Graph! 🎉');
+    toast.success('Welcome to Helsi! 🎉');
   };
 
   const handleLogSubmit = (logData: any) => {
@@ -65,12 +64,27 @@ const Index = () => {
     setAvatarState(getAvatarState());
     setLatestInsight(generateInsight());
 
+    // Check if user logged "bad" but honest data
+    const hasNegativeData = logData.mood === 'Low' || logData.stress === 'High' || logData.sleep === 'Poor' || logData.food === 'Alcohol' || logData.supplements === 'Skipped';
+
     if (xpGain.bonus > 0) {
-      toast.success(`🎉 ${xpGain.reason} +${xpGain.total} XP!`, {
-        description: 'All categories logged! Bonus activated!',
-      });
+      if (hasNegativeData) {
+        toast.success(`🎉 ${xpGain.reason} +${xpGain.total} XP!`, {
+          description: 'Honest logging is the first step to improvement! 💪',
+        });
+      } else {
+        toast.success(`🎉 ${xpGain.reason} +${xpGain.total} XP!`, {
+          description: 'All categories logged! Bonus activated!',
+        });
+      }
     } else {
-      toast.success(`+${xpGain.total} XP earned!`);
+      if (hasNegativeData) {
+        toast.success(`+${xpGain.total} XP earned!`, {
+          description: 'Thanks for being honest - that takes courage! 🌟',
+        });
+      } else {
+        toast.success(`+${xpGain.total} XP earned!`);
+      }
     }
 
     if (streakStatus.current > 1 && !streakStatus.broken) {
@@ -113,7 +127,6 @@ const Index = () => {
 
   if (!user) return null;
 
-  const leaderboard = getLeaderboard();
   const confidence = getConfidenceLevel();
 
   return (
@@ -123,7 +136,7 @@ const Index = () => {
         <div className="max-w-2xl mx-auto">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-2xl font-bold text-white">The Immune Graph</h1>
+              <h1 className="text-2xl font-bold text-white">Helsi</h1>
               <p className="text-white/90 text-sm">Your health twin is learning</p>
             </div>
             <button
@@ -158,39 +171,6 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="max-w-2xl mx-auto px-4 py-6 space-y-6">
-        {/* Tab Navigation */}
-        <div className="flex gap-2 bg-background rounded-2xl p-1 shadow-sm">
-          <button
-            onClick={() => setActiveTab('home')}
-            className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
-              activeTab === 'home'
-                ? 'bg-primary text-primary-foreground shadow-button'
-                : 'text-muted-foreground hover:text-foreground'
-            }`}
-          >
-            Twin Home
-          </button>
-          <button
-            onClick={() => setActiveTab('leaderboard')}
-            className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
-              activeTab === 'leaderboard'
-                ? 'bg-primary text-primary-foreground shadow-button'
-                : 'text-muted-foreground hover:text-foreground'
-            }`}
-          >
-            Leaderboard
-          </button>
-        </div>
-
-        <AnimatePresence mode="wait">
-          {activeTab === 'home' ? (
-            <motion.div
-              key="home"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              className="space-y-6"
-            >
               {/* Avatar Card */}
               <div className="bg-card rounded-3xl shadow-card p-8 text-center">
                 <h2 className="text-xl font-bold mb-4">Your Immune Twin</h2>
@@ -199,15 +179,14 @@ const Index = () => {
                     state={avatarState.state}
                     color={avatarState.color}
                     scale={avatarState.scale}
-                    size={140}
+                    size={240}
+                    avatarType={user.avatarType}
                   />
                 </div>
                 <p className="text-muted-foreground">
-                  {avatarState.state === 'Happy' && "Your twin feels great today! 😊"}
-                  {avatarState.state === 'Energized' && "Wow! Your twin is energized! ⚡"}
+                  {(avatarState.state === 'Happy' || avatarState.state === 'Energized') && "Your twin feels great today! 😊"}
                   {avatarState.state === 'Neutral' && "Your twin is feeling steady 👍"}
-                  {avatarState.state === 'Low' && "Your twin needs some care 💙"}
-                  {avatarState.state === 'Tired' && "Your twin is tired. Rest up! 😴"}
+                  {(avatarState.state === 'Low' || avatarState.state === 'Tired') && "Your twin needs some care 💙"}
                 </p>
               </div>
 
@@ -233,76 +212,25 @@ const Index = () => {
 
               {/* Demo Controls */}
               <div className="bg-card rounded-3xl shadow-card p-6">
-                <h3 className="font-bold mb-3 flex items-center gap-2">
+                <h3 className="font-bold mb-4 flex items-center gap-2">
                   <Trophy className="w-5 h-5 text-accent" />
                   Demo Controls
                 </h3>
-                <div className="flex gap-3">
+                <div className="space-y-3">
                   <button
                     onClick={handleSeedDemo}
-                    className="flex-1 py-3 bg-gradient-accent text-accent-foreground rounded-2xl font-semibold hover:shadow-lg transition-all"
+                    className="w-full py-4 bg-gradient-accent text-accent-foreground rounded-2xl font-semibold hover:shadow-lg transition-all text-center"
                   >
                     View Perfect Journey
                   </button>
                   <button
                     onClick={handleResetDemo}
-                    className="flex-1 py-3 bg-muted text-foreground rounded-2xl font-semibold hover:bg-muted/80 transition-all"
+                    className="w-full py-3 bg-muted text-foreground rounded-2xl font-semibold hover:bg-muted/80 transition-all"
                   >
                     Reset Demo
                   </button>
                 </div>
               </div>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="leaderboard"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              className="bg-card rounded-3xl shadow-card p-6"
-            >
-              <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                <Trophy className="w-6 h-6 text-accent" />
-                Leaderboard
-              </h2>
-              <div className="space-y-3">
-                {leaderboard.map((entry, index) => (
-                  <motion.div
-                    key={entry.id}
-                    initial={{ x: -20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: index * 0.1 }}
-                    className={`p-4 rounded-2xl flex items-center gap-4 ${
-                      entry.id === user.id
-                        ? 'bg-primary/10 border-2 border-primary'
-                        : 'bg-muted'
-                    }`}
-                  >
-                    <div className="text-2xl font-bold text-muted-foreground w-8">
-                      #{index + 1}
-                    </div>
-                    <div className="flex-1">
-                      <div className="font-bold">{entry.name}</div>
-                      <div className="text-sm text-muted-foreground">
-                        {entry.xp} XP • 🔥 {entry.streak} days
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm font-semibold text-primary">
-                        {entry.consistencyScore.toFixed(1)}
-                      </div>
-                      <div className="text-xs text-muted-foreground">score</div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              <p className="text-xs text-muted-foreground text-center mt-6">
-                Consistency Score = days logged + (complete logs × 0.5)
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </main>
 
       {/* Floating Action Button */}
@@ -310,9 +238,9 @@ const Index = () => {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsLoggingModalOpen(true)}
-        className="fixed bottom-8 right-8 w-16 h-16 bg-gradient-accent text-accent-foreground rounded-full shadow-energized flex items-center justify-center hover:shadow-2xl transition-all"
+        className="fixed bottom-20 right-6 w-14 h-14 bg-gradient-accent text-accent-foreground rounded-full shadow-energized flex items-center justify-center hover:shadow-2xl transition-all z-40"
       >
-        <Plus className="w-8 h-8" />
+        <Plus className="w-7 h-7" />
       </motion.button>
 
       {/* Logging Modal */}
