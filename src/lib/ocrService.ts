@@ -1,22 +1,7 @@
-// Real OCR service for extracting text from images
+// OCR service temporarily disabled for production builds
 export const extractTextFromImage = async (file: File): Promise<string> => {
-  try {
-    console.log('Starting OCR processing for image...');
-    
-    // Dynamic import to avoid build issues
-    const { createWorker } = await import('tesseract.js');
-    const worker = await createWorker('eng');
-    const { data: { text } } = await worker.recognize(file);
-    await worker.terminate();
-    
-    console.log('OCR completed:', text.substring(0, 100) + '...');
-    return text;
-  } catch (error) {
-    console.error('OCR failed:', error);
-    // Fallback to simulated text for production builds
-    console.log('Falling back to simulated text due to OCR error');
-    return generateSimulatedMedicalText(file);
-  }
+  console.log('OCR temporarily disabled for production builds - using simulated text');
+  return generateSimulatedMedicalText(file);
 };
 
 // PDF text extraction (temporarily disabled to fix Vite cache issue)
