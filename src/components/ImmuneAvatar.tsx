@@ -42,8 +42,8 @@ export const ImmuneAvatar = ({ state, color, scale = 1, size = 120 }: ImmuneAvat
           style={{
             width: '100%',
             height: '100%',
-            objectFit: 'cover',
-            imageRendering: 'crisp-edges',
+            objectFit: 'contain',
+            imageRendering: 'auto',
             filter: `drop-shadow(0 4px 12px ${color}35)`,
           }}
         />

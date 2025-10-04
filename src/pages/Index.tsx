@@ -138,41 +138,42 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-sky-200 via-sky-100 to-green-100 relative overflow-hidden flex flex-col">
       {/* Decorative Nature Elements - Full Background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Clouds floating around */}
-        <div className="absolute top-10 right-20 opacity-50 animate-pulse">
+        {/* Clouds floating around - moved lower */}
+        <div className="absolute top-24 right-20 opacity-50 animate-pulse">
           <div className="text-5xl">☁️</div>
         </div>
-        <div className="absolute top-24 left-16 opacity-40">
+        <div className="absolute top-32 left-16 opacity-40">
           <div className="text-4xl">☁️</div>
         </div>
-        <div className="absolute top-40 right-32 opacity-30">
+        <div className="absolute top-48 right-32 opacity-30">
           <div className="text-3xl">☁️</div>
         </div>
 
-        {/* Sun */}
-        <div className="absolute top-8 left-8">
+        {/* Sun - moved lower */}
+        <div className="absolute top-20 left-8">
           <div className="text-5xl">☀️</div>
         </div>
 
-        {/* Birds */}
-        <div className="absolute top-32 right-1/4 opacity-60">
+        {/* Birds - moved lower */}
+        <div className="absolute top-44 right-1/4 opacity-60">
           <div className="text-2xl">🐦</div>
         </div>
       </div>
 
       {/* Header - Simplified Stats Only */}
-      <header className="relative z-10 p-4">
+      <header className="relative z-10 py-3">
         <div className="max-w-2xl mx-auto">
-          <div className="flex items-center justify-center gap-6">
+          <div className="flex items-center justify-center gap-8 bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 mx-4 shadow-lg">
             <div className="flex items-center gap-2">
-              <Zap className="w-5 h-5 text-white drop-shadow-lg" />
-              <span className="text-sm text-white/80 drop-shadow">XP</span>
-              <p className="text-xl font-bold text-white drop-shadow-lg">{user.xp}</p>
+              <Zap className="w-4 h-4 text-amber-400" />
+              <span className="text-xs text-white/90 font-medium">XP</span>
+              <p className="text-lg font-bold text-white">{user.xp}</p>
             </div>
+            <div className="w-px h-6 bg-white/30"></div>
             <div className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-white drop-shadow-lg" />
-              <span className="text-sm text-white/80 drop-shadow">Streak</span>
-              <p className="text-xl font-bold text-white drop-shadow-lg animate-flicker">
+              <TrendingUp className="w-4 h-4 text-amber-400" />
+              <span className="text-xs text-white/90 font-medium">Streak</span>
+              <p className="text-lg font-bold text-white animate-flicker">
                 🔥 {user.streak}
               </p>
             </div>
@@ -180,8 +181,8 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex-1 flex items-center justify-center relative z-10">
+      {/* Main Content - Takes remaining space and centers avatar */}
+      <main className="flex-1 flex items-center justify-center relative z-10 -mt-8">
         {/* Avatar - Centered and Large */}
         <div className="flex justify-center">
           <ImmuneAvatar

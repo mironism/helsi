@@ -111,9 +111,9 @@ export const LoggingModal = ({ isOpen, onClose, onSubmit }: LoggingModalProps) =
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed bottom-0 left-0 right-0 bg-background rounded-t-[2rem] shadow-2xl z-50 max-h-[85vh] overflow-y-auto"
+            className="fixed bottom-0 left-0 right-0 bg-background rounded-t-[2rem] shadow-2xl z-50 max-h-[75vh] overflow-y-auto pb-safe"
           >
-            <div className="p-6 pb-8">
+            <div className="p-6 pb-24">
               {/* Header */}
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold">How are you feeling?</h2>
